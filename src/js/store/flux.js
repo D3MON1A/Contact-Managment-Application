@@ -1,42 +1,71 @@
-const getState = ({ getStore, getActions, setStore }) => {
+const getState = ({ getStore, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			allContacts: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			addContacts: (name, address, phone, email) => {
+				fetch("https://assets.breatheco.de/apis/fake/contact/", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						full_name: name,
+						email,
+						agenda_slug: "expAgendaForCohortIII",
+						address,
+						phone
+					})
+				})
+					.then(data => data.json().then(response => ({ status: data.status, resMsg: response.msg })))
+					.then(({ status, resMsg }) => {
+						if (status === 400) alert(resMsg);
+					})
+					// .then(() => {
+					// 	fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+					// 		.then(data => data.json())
+					// 		.then(data => setStore({ allContacts: data }));
+					// })
+					.catch(err => alert(err.message));
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			deleteContacts: idToDelete => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${idToDelete}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(res => res.json())
+					.then(() => {
+						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+							.then(red => red.json())
+							.then(data => setStore({ allContacts: data }));
+					})
+					.catch(err => alert(err.message));
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			editContact: (name, address, phone, email, idToEdit) => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${idToEdit}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						agenda_slug: "expAgendaForCohortIII",
+						full_name: name,
+						email,
+						address,
+						phone
+					})
+				})
+					.then(data => data.json().then(response => ({ status: data.status, resMsg: response.msg })))
+					.then(({ status, resMsg }) => {
+						if (status === 400) alert(resMsg);
+					})
+					.then(() => {
+						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+							.then(res => res.json())
+							.then(data => setStore({ allContacts: data }));
+					})
+					.catch(err => alert(err.message));
 			}
 		}
 	};
