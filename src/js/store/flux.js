@@ -11,7 +11,7 @@ const getState = ({ getStore, setStore }) => {
 					body: JSON.stringify({
 						full_name: name,
 						email,
-						agenda_slug: "expAgendaForCohortIII",
+						agenda_slug: "leisyAgenda",
 						address,
 						phone
 					})
@@ -21,7 +21,7 @@ const getState = ({ getStore, setStore }) => {
 						if (status === 400) alert(resMsg);
 					})
 					// .then(() => {
-					// 	fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+					// 	fetch("https://assets.breatheco.de/apis/fake/contact/agenda/leisyAgenda")
 					// 		.then(data => data.json())
 					// 		.then(data => setStore({ allContacts: data }));
 					// })
@@ -35,7 +35,7 @@ const getState = ({ getStore, setStore }) => {
 				})
 					.then(res => res.json())
 					.then(() => {
-						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/leisyAgenda")
 							.then(red => red.json())
 							.then(data => setStore({ allContacts: data }));
 					})
@@ -49,7 +49,7 @@ const getState = ({ getStore, setStore }) => {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						agenda_slug: "expAgendaForCohortIII",
+						agenda_slug: "leisyAgenda",
 						full_name: name,
 						email,
 						address,
@@ -61,7 +61,7 @@ const getState = ({ getStore, setStore }) => {
 						if (status === 400) alert(resMsg);
 					})
 					.then(() => {
-						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/leisyAgenda")
 							.then(res => res.json())
 							.then(data => setStore({ allContacts: data }));
 					})

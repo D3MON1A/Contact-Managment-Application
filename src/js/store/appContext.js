@@ -18,7 +18,7 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
-			fetch("https://assets.breatheco.de/apis/fake/contact/agenda/expAgendaForCohortIII")
+			fetch("https://assets.breatheco.de/apis/fake/contact/agenda/leisyAgenda")
 				.then(red => red.json())
 				.then(data => setState({ ...state, store: { allContacts: data } }))
 				.catch(err => alert(err.message));
